@@ -1,0 +1,270 @@
+import courseContentMap from './courseContentMap.json';
+
+export const COURSE_SECTIONS = [
+  {
+    id: 'intro',
+    code: 'START',
+    title: 'Course Overview & Logistics',
+    subtitle: 'Architecture, Syllabus, Prerequisites & Setup',
+    color: 'cyan',
+    quizKey: null,
+    items: [
+      { path: 'README.md', label: 'Course Overview & Syllabus', kind: 'overview' },
+      { path: 'workshop-best-practices.md', label: 'Workshop & Code Best Practices', kind: 'guide' },
+      { path: 'awesome-data-engineering.md', label: 'Awesome Data Engineering Resources', kind: 'guide' },
+      { path: 'certificates.md', label: 'How to Get Your Certificate', kind: 'guide' },
+    ],
+  },
+  {
+    id: 'm1',
+    code: 'MODULE 1',
+    title: 'Containerization & Infrastructure as Code',
+    subtitle: 'Docker, Docker Compose, PostgreSQL, SQL & Terraform on GCP',
+    color: 'sky',
+    quizKey: 'm1',
+    items: [
+      { path: '01-docker-terraform/README.md', label: 'Module 1 Overview & Community Notes', kind: 'overview' },
+      { path: '01-docker-terraform/01-introduction.md', label: '1.1 Introduction to Docker', kind: 'unit' },
+      { path: '01-docker-terraform/02-virtual-environment.md', label: '1.2 Virtual Environments & Data Pipelines', kind: 'unit' },
+      { path: '01-docker-terraform/03-dockerizing-pipeline.md', label: '1.3 Dockerizing the Pipeline', kind: 'unit' },
+      { path: '01-docker-terraform/04-postgres-docker.md', label: '1.4 Running PostgreSQL with Docker', kind: 'unit' },
+      { path: '01-docker-terraform/05-data-ingestion.md', label: '1.5 NY Taxi Dataset & Data Ingestion', kind: 'unit' },
+      { path: '01-docker-terraform/06-ingestion-script.md', label: '1.6 Creating the Data Ingestion Script', kind: 'unit' },
+      { path: '01-docker-terraform/07-pgadmin.md', label: '1.7 pgAdmin Database Management Tool', kind: 'unit' },
+      { path: '01-docker-terraform/08-dockerizing-ingestion.md', label: '1.8 Dockerizing the Ingestion Script', kind: 'unit' },
+      { path: '01-docker-terraform/09-docker-compose.md', label: '1.9 Docker Compose Multi-Container', kind: 'unit' },
+      { path: '01-docker-terraform/10-sql-refresher.md', label: '1.10 SQL Refresher', kind: 'unit' },
+      { path: '01-docker-terraform/11-cleanup.md', label: '1.11 Environment Cleanup', kind: 'unit' },
+      { path: '01-docker-terraform/12-terraform-overview.md', label: '1.12 Terraform Overview', kind: 'unit' },
+      { path: '01-docker-terraform/13-gcp-overview.md', label: '1.13 GCP Overview', kind: 'unit' },
+      { path: '01-docker-terraform/setup/terraform-and-gcp-setup.md', label: 'Setup: Terraform & GCP Guide', kind: 'setup' },
+      { path: 'cohorts/2026/01-docker-terraform/homework.md', label: 'Homework 1: Docker, SQL & Terraform', kind: 'homework' },
+    ],
+  },
+  {
+    id: 'm2',
+    code: 'MODULE 2',
+    title: 'Workflow Orchestration with Kestra',
+    subtitle: 'Declarative ETL/ELT Flows, Backfills, GCS, BigQuery & AI Copilot',
+    color: 'purple',
+    quizKey: 'm2',
+    items: [
+      { path: '02-workflow-orchestration/README.md', label: 'Module 2 Overview & Troubleshooting', kind: 'overview' },
+      { path: '02-workflow-orchestration/01-what-is-workflow-orchestration.md', label: '2.1 What is Workflow Orchestration?', kind: 'unit' },
+      { path: '02-workflow-orchestration/02-what-is-kestra.md', label: '2.2 What is Kestra?', kind: 'unit' },
+      { path: '02-workflow-orchestration/03-installing-kestra.md', label: '2.3 Installing Kestra', kind: 'unit' },
+      { path: '02-workflow-orchestration/04-kestra-concepts.md', label: '2.4 Kestra Concepts', kind: 'unit' },
+      { path: '02-workflow-orchestration/05-orchestrate-python-code.md', label: '2.5 Orchestrate Python Code', kind: 'unit' },
+      { path: '02-workflow-orchestration/06-getting-started-pipeline.md', label: '2.6 Getting Started Pipeline', kind: 'unit' },
+      { path: '02-workflow-orchestration/07-load-taxi-data-to-postgres.md', label: '2.7 Local DB: Load Taxi Data to Postgres', kind: 'unit' },
+      { path: '02-workflow-orchestration/08-scheduling-and-backfills.md', label: '2.8 Scheduling and Backfills', kind: 'unit' },
+      { path: '02-workflow-orchestration/09-etl-vs-elt.md', label: '2.9 ETL vs ELT', kind: 'unit' },
+      { path: '02-workflow-orchestration/10-setup-google-cloud-platform.md', label: '2.10 Setup Google Cloud Platform (GCP)', kind: 'unit' },
+      { path: '02-workflow-orchestration/11-load-taxi-data-to-bigquery.md', label: '2.11 GCP Workflow: Load Taxi Data to BigQuery', kind: 'unit' },
+      { path: '02-workflow-orchestration/12-schedule-and-backfill-full-dataset.md', label: '2.12 Schedule & Backfill Full Dataset', kind: 'unit' },
+      { path: '02-workflow-orchestration/13-why-ai-for-workflows.md', label: '2.13 Why AI for Workflows?', kind: 'unit' },
+      { path: '02-workflow-orchestration/14-context-engineering-with-chatgpt.md', label: '2.14 Context Engineering with ChatGPT', kind: 'unit' },
+      { path: '02-workflow-orchestration/15-ai-copilot-in-kestra.md', label: '2.15 AI Copilot in Kestra', kind: 'unit' },
+      { path: '02-workflow-orchestration/16-retrieval-augmented-generation.md', label: '2.16 Bonus: Retrieval Augmented Generation (RAG)', kind: 'unit' },
+      { path: '02-workflow-orchestration/17-deploy-to-the-cloud.md', label: '2.17 Bonus: Deploy to the Cloud', kind: 'unit' },
+      { path: '02-workflow-orchestration/18-additional-resources.md', label: '2.18 Additional Resources', kind: 'unit' },
+      { path: 'cohorts/2026/02-workflow-orchestration/homework.md', label: 'Homework 2: Kestra Orchestration', kind: 'homework' },
+    ],
+  },
+  {
+    id: 'w1',
+    code: 'WORKSHOP',
+    title: 'Data Ingestion with dlt (data load tool)',
+    subtitle: 'REST APIs, Schema Normalization, Incremental Loading & dlt MCP',
+    color: 'teal',
+    quizKey: null,
+    items: [
+      { path: 'cohorts/2026/workshops/dlt.md', label: 'Workshop Overview: AI-Assisted Data Ingestion with dlt', kind: 'overview' },
+      { path: 'cohorts/2026/workshops/dlt/README.md', label: 'Workshop Full Step-by-Step Instructions', kind: 'unit' },
+      { path: 'cohorts/2026/workshops/dlt/dlt_homework.md', label: 'Workshop Homework: dlt Ingestion', kind: 'homework' },
+    ],
+  },
+  {
+    id: 'm3',
+    code: 'MODULE 3',
+    title: 'Data Warehousing & BigQuery',
+    subtitle: 'OLAP vs OLTP, Partitioning, Clustering, Internals & BigQuery ML',
+    color: 'blue',
+    quizKey: 'm3',
+    items: [
+      { path: '03-data-warehouse/README.md', label: 'Module 3 Overview & Community Notes', kind: 'overview' },
+      { path: '03-data-warehouse/01-data-warehouse-and-bigquery.md', label: '3.1 Data Warehouse and BigQuery', kind: 'unit' },
+      { path: '03-data-warehouse/02-partitioning-vs-clustering.md', label: '3.2 Partitioning vs Clustering', kind: 'unit' },
+      { path: '03-data-warehouse/03-bigquery-best-practices.md', label: '3.3 BigQuery Best Practices', kind: 'unit' },
+      { path: '03-data-warehouse/04-internals-of-bigquery.md', label: '3.4 Internals of BigQuery', kind: 'unit' },
+      { path: '03-data-warehouse/05-machine-learning-in-bigquery.md', label: '3.5 Machine Learning in BigQuery', kind: 'unit' },
+      { path: '03-data-warehouse/06-deploying-a-machine-learning-model.md', label: '3.6 Deploying a Machine Learning Model', kind: 'unit' },
+      { path: 'cohorts/2026/03-data-warehouse/homework.md', label: 'Homework 3: BigQuery & Data Warehouse', kind: 'homework' },
+    ],
+  },
+  {
+    id: 'm4',
+    code: 'MODULE 4',
+    title: 'Analytics Engineering with dbt',
+    subtitle: 'Data Modeling, dbt Core & Cloud, DuckDB, Sources, Models, Tests & Lineage',
+    color: 'emerald',
+    quizKey: 'm4',
+    items: [
+      { path: '04-analytics-engineering/README.md', label: 'Module 4 Overview & Community Notes', kind: 'overview' },
+      { path: '04-analytics-engineering/01-analytics-engineering-basics.md', label: '4.1 Analytics Engineering Basics', kind: 'unit' },
+      { path: '04-analytics-engineering/02-what-is-dbt.md', label: '4.2 What is dbt?', kind: 'unit' },
+      { path: '04-analytics-engineering/03-dbt-core-vs-dbt-cloud.md', label: '4.3 dbt Core vs dbt Cloud', kind: 'unit' },
+      { path: '04-analytics-engineering/04-dbt-project-structure.md', label: '4.4 dbt Project Structure', kind: 'unit' },
+      { path: '04-analytics-engineering/05-dbt-sources.md', label: '4.5 dbt Sources', kind: 'unit' },
+      { path: '04-analytics-engineering/06-dbt-models.md', label: '4.6 dbt Models (Staging, Intermediate, Fact/Dim)', kind: 'unit' },
+      { path: '04-analytics-engineering/07-dbt-seeds-and-macros.md', label: '4.7 dbt Seeds and Macros', kind: 'unit' },
+      { path: '04-analytics-engineering/08-documentation.md', label: '4.8 Documentation & Lineage', kind: 'unit' },
+      { path: '04-analytics-engineering/09-dbt-tests.md', label: '4.9 dbt Tests', kind: 'unit' },
+      { path: '04-analytics-engineering/10-dbt-packages.md', label: '4.10 dbt Packages', kind: 'unit' },
+      { path: '04-analytics-engineering/11-dbt-commands.md', label: '4.11 dbt Commands', kind: 'unit' },
+      { path: '04-analytics-engineering/setup/local_setup.md', label: 'Setup: Local DuckDB + dbt Core', kind: 'setup' },
+      { path: '04-analytics-engineering/setup/cloud_setup.md', label: 'Setup: Cloud BigQuery + dbt Cloud', kind: 'setup' },
+      { path: 'cohorts/2026/04-analytics-engineering/homework.md', label: 'Homework 4: Analytics Engineering with dbt', kind: 'homework' },
+    ],
+  },
+  {
+    id: 'm5',
+    code: 'MODULE 5',
+    title: 'Data Platforms with Bruin',
+    subtitle: 'End-to-End Pipelines, Assets, Incremental Strategies, Quality Checks & Bruin MCP',
+    color: 'amber',
+    quizKey: 'm5',
+    items: [
+      { path: '05-data-platforms/README.md', label: 'Module 5 Overview', kind: 'overview' },
+      { path: '05-data-platforms/01-introduction.md', label: '5.1 Introduction to Bruin', kind: 'unit' },
+      { path: '05-data-platforms/02-getting-started.md', label: '5.2 Getting Started with Bruin', kind: 'unit' },
+      { path: '05-data-platforms/03-nyc-taxi-pipeline.md', label: '5.3 Building an End-to-End NYC Taxi Pipeline', kind: 'unit' },
+      { path: '05-data-platforms/04-bruin-mcp.md', label: '5.4 Using Bruin MCP with AI Agents', kind: 'unit' },
+      { path: '05-data-platforms/05-bruin-cloud.md', label: '5.5 Deploying to Bruin Cloud', kind: 'unit' },
+      { path: '05-data-platforms/06-core-concepts-projects.md', label: '5.6 Core Concepts: Projects', kind: 'unit' },
+      { path: '05-data-platforms/07-core-concepts-pipelines.md', label: '5.7 Core Concepts: Pipelines', kind: 'unit' },
+      { path: '05-data-platforms/08-core-concepts-assets.md', label: '5.8 Core Concepts: Assets', kind: 'unit' },
+      { path: '05-data-platforms/09-core-concepts-variables.md', label: '5.9 Core Concepts: Variables', kind: 'unit' },
+      { path: '05-data-platforms/10-core-concepts-commands.md', label: '5.10 Core Concepts: Commands', kind: 'unit' },
+      { path: 'cohorts/2026/05-data-platforms/homework.md', label: 'Homework 5: Data Platforms with Bruin', kind: 'homework' },
+    ],
+  },
+  {
+    id: 'm6',
+    code: 'MODULE 6',
+    title: 'Batch Processing with Apache Spark',
+    subtitle: 'PySpark, DataFrames, Spark SQL, Cluster Anatomy, GroupBy/Join Internals & Dataproc',
+    color: 'orange',
+    quizKey: 'm6',
+    items: [
+      { path: '06-batch/README.md', label: 'Module 6 Overview & Community Notes', kind: 'overview' },
+      { path: '06-batch/01-introduction-to-batch-processing.md', label: '6.1 Introduction to Batch Processing', kind: 'unit' },
+      { path: '06-batch/02-introduction-to-spark.md', label: '6.2 Introduction to Spark', kind: 'unit' },
+      { path: '06-batch/03-installing-spark.md', label: '6.3 Installing Spark', kind: 'unit' },
+      { path: '06-batch/04-first-look-at-spark.md', label: '6.4 First Look at Spark / PySpark', kind: 'unit' },
+      { path: '06-batch/05-spark-dataframes.md', label: '6.5 Spark DataFrames', kind: 'unit' },
+      { path: '06-batch/06-preparing-taxi-data.md', label: '6.6 Preparing Yellow and Green Taxi Data', kind: 'unit' },
+      { path: '06-batch/07-sql-with-spark.md', label: '6.7 SQL with Spark', kind: 'unit' },
+      { path: '06-batch/08-anatomy-of-a-spark-cluster.md', label: '6.8 Anatomy of a Spark Cluster', kind: 'unit' },
+      { path: '06-batch/09-groupby-in-spark.md', label: '6.9 GroupBy in Spark', kind: 'unit' },
+      { path: '06-batch/10-joins-in-spark.md', label: '6.10 Joins in Spark', kind: 'unit' },
+      { path: '06-batch/11-operations-on-spark-rdds.md', label: '6.11 Operations on Spark RDDs', kind: 'unit' },
+      { path: '06-batch/12-spark-rdd-mappartition.md', label: '6.12 Spark RDD mapPartition', kind: 'unit' },
+      { path: '06-batch/13-connecting-to-google-cloud-storage.md', label: '6.13 Connecting to Google Cloud Storage', kind: 'unit' },
+      { path: '06-batch/14-creating-a-local-spark-cluster.md', label: '6.14 Creating a Local Spark Cluster', kind: 'unit' },
+      { path: '06-batch/15-setting-up-a-dataproc-cluster.md', label: '6.15 Setting up a Dataproc Cluster', kind: 'unit' },
+      { path: '06-batch/16-connecting-spark-to-bigquery.md', label: '6.16 Connecting Spark to BigQuery', kind: 'unit' },
+      { path: '06-batch/setup/macos.md', label: 'Setup: Installing PySpark on macOS', kind: 'setup' },
+      { path: 'cohorts/2026/06-batch/homework.md', label: 'Homework 6: Batch Processing with Spark', kind: 'homework' },
+      { path: 'cohorts/2026/06-batch/solutions.md', label: 'Solutions: Module 6 Spark Homework', kind: 'solution' },
+    ],
+  },
+  {
+    id: 'm7',
+    code: 'MODULE 7',
+    title: 'Streaming with Redpanda (Kafka) & PyFlink',
+    subtitle: 'Kafka Producers/Consumers, Stateful PyFlink Jobs, Watermarks, Tumbling & Session Windows',
+    color: 'rose',
+    quizKey: 'm7',
+    items: [
+      { path: '07-streaming/README.md', label: 'Module 7 Overview', kind: 'overview' },
+      { path: '07-streaming/01-introduction.md', label: '7.1 PyFlink: Stream Processing Workshop Intro', kind: 'unit' },
+      { path: '07-streaming/02-redpanda.md', label: '7.2 Redpanda - Kafka-Compatible Broker', kind: 'unit' },
+      { path: '07-streaming/03-produce-messages-to-kafka.md', label: '7.3 Produce Messages to Kafka', kind: 'unit' },
+      { path: '07-streaming/04-consume-messages-with-python.md', label: '7.4 Consume Messages with Python', kind: 'unit' },
+      { path: '07-streaming/05-save-events-to-postgresql.md', label: '7.5 Save Events to PostgreSQL', kind: 'unit' },
+      { path: '07-streaming/06-why-flink.md', label: '7.6 Why Flink?', kind: 'unit' },
+      { path: '07-streaming/07-the-flink-image-and-services.md', label: '7.7 The Flink Image and Services', kind: 'unit' },
+      { path: '07-streaming/08-the-pass-through-flink-job.md', label: '7.8 The Pass-Through Flink Job', kind: 'unit' },
+      { path: '07-streaming/09-offsets-earliest-vs-latest.md', label: '7.9 Offsets - earliest vs latest', kind: 'unit' },
+      { path: '07-streaming/10-aggregation-with-tumbling-windows.md', label: '7.10 Aggregation with Tumbling Windows', kind: 'unit' },
+      { path: '07-streaming/11-late-events-and-upserts.md', label: '7.11 Late Events and Upserts', kind: 'unit' },
+      { path: '07-streaming/12-understanding-window-types.md', label: '7.12 Understanding Window Types', kind: 'unit' },
+      { path: '07-streaming/13-cleanup.md', label: '7.13 Cluster Cleanup', kind: 'unit' },
+      { path: '07-streaming/14-questions-and-answers.md', label: '7.14 Streaming Q&A', kind: 'unit' },
+      { path: '07-streaming/theory/README.md', label: 'Optional: Kafka Theory & Java Lectures', kind: 'guide' },
+      { path: 'cohorts/2026/07-streaming/homework.md', label: 'Homework 7: Redpanda & PyFlink Streaming', kind: 'homework' },
+      { path: 'cohorts/2026/07-streaming/solutions/solutions.md', label: 'Solutions: Module 7 Streaming Homework', kind: 'solution' },
+    ],
+  },
+  {
+    id: 'project',
+    code: 'CAPSTONE',
+    title: 'Final Capstone Project & Datasets',
+    subtitle: 'Problem Statement, Cloud IaC, Peer Review Rubric & Approved Datasets',
+    color: 'emerald',
+    quizKey: null,
+    items: [
+      { path: 'projects/README.md', label: 'Capstone Project Specification & Rubric', kind: 'overview' },
+      { path: 'projects/datasets.md', label: 'Approved Project Datasets List', kind: 'guide' },
+    ],
+  },
+].map((section) => ({
+  ...section,
+  items: section.items
+    .filter(({ path }) => Boolean(courseContentMap[path]))
+    .map((item) => {
+      const doc = courseContentMap[item.path];
+      return {
+        ...item,
+        ...doc,
+        sectionId: section.id,
+        sectionCode: section.code,
+        sectionTitle: section.title,
+        quizKey: section.quizKey,
+      };
+    }),
+}));
+
+export const FLAT_COURSE_ITEMS = COURSE_SECTIONS.flatMap(({ items }) => [...items]);
+
+export const getDocByPath = (targetPath) => {
+  if (!targetPath) return FLAT_COURSE_ITEMS[0];
+  const normalized = targetPath.replace(/^\/+/, '');
+  const foundInTree = FLAT_COURSE_ITEMS.find(({ path }) => path === normalized);
+  if (foundInTree) return foundInTree;
+  if (courseContentMap[normalized]) {
+    return {
+      path: normalized,
+      label: courseContentMap[normalized].title,
+      kind: 'unit',
+      sectionId: 'intro',
+      sectionCode: 'DOC',
+      sectionTitle: 'Course Document',
+      ...courseContentMap[normalized],
+    };
+  }
+  // Try matching directory README.md
+  const readmeCandidate = `${normalized.replace(/\/+$/, '')}/README.md`;
+  if (courseContentMap[readmeCandidate]) {
+    return (
+      FLAT_COURSE_ITEMS.find(({ path }) => path === readmeCandidate) || {
+        path: readmeCandidate,
+        label: courseContentMap[readmeCandidate].title,
+        kind: 'overview',
+        ...courseContentMap[readmeCandidate],
+      }
+    );
+  }
+  return null;
+};
