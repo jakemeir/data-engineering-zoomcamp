@@ -65,10 +65,12 @@ export const CourseWorkspace = () => {
     topAnchorRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
   }, [currentDoc?.path, readMode]);
 
-  // Check if current section has an interactive quiz
-  const inlineQuiz = currentSection?.quizKey
-    ? HOMEWORK_QUIZZES[currentSection.quizKey]
-    : null;
+  // Only show the interactive quiz on the Homework page itself (or at the bottom of One-Page Module Mode)
+  const showInlineQuiz = isModuleAllMode || currentDoc?.kind === 'homework';
+  const inlineQuiz =
+    showInlineQuiz && currentSection?.quizKey
+      ? HOMEWORK_QUIZZES[currentSection.quizKey]
+      : null;
 
   const quizStats = inlineQuiz
     ? (() => {
