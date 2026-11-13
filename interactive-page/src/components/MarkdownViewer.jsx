@@ -42,10 +42,13 @@ const CodeBlock = ({ language, code }) => {
   );
 };
 
+const INLINE_TOKEN_REGEX =
+  /`([^`]+)`|!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)]+)\)|<(https?:\/\/[^>]+)>|\*\*\*([^*\n]+)\*\*\*|\*\*([^*\n]+)\*\*|(?<=^|[\s([{"'])__([^_\n]+?)__(?=$|[\s.,!?:;)\]}"'])|(?<!\*)\*(?!\s)([^*\n]+?)(?<!\s)\*(?!\*)|(?<=^|[\s([{"'])_([^_\n]+?)_(?=$|[\s.,!?:;)\]}"'])|~~([^~\n]+)~~|<br\s*\/?>/gi;
+
 export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
   const { body = '', dir = '' } = doc || {};
 
-  // Clean HTML tags that wrap images in main README while preserving content
+  // Clean HTML tags that wrap collapsible sections while preserving content
   const cleanedBody = body
     .replace(/<details>\s*<summary>(.*?)<\/summary>/gi, '\n### $1\n')
     .replace(/<\/details>/gi, '\n');
@@ -78,33 +81,46 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
     });
   }
 
-  const renderInline = (text, keyPrefix) => {
-    if (!text) return null;
+  const renderInline = (text, keyPrefix, depth = 0) => {
+    if (!text || depth > 4) return text;
 
-    // Handle inline markdown images: ![alt](src)
-    const tokenRegex =
-      /!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)]+)\)|`([^`]+)`|\*\*([^*]+)\*\*/g;
+    const regex = new RegExp(INLINE_TOKEN_REGEX.source, 'gi');
     const parts = [];
     let cursor = 0;
     let tok;
     let idx = 0;
 
-    while ((tok = tokenRegex.exec(text)) !== null) {
+    while ((tok = regex.exec(text)) !== null) {
       if (tok.index > cursor) {
         parts.push(text.slice(cursor, tok.index));
       }
 
       const [
-        ,
+        fullMatch,
+        inlineCode,
         imgAlt,
         imgSrc,
         linkLabel,
         linkHref,
-        inlineCode,
-        boldText,
+        autoUrl,
+        boldItalicText,
+        boldStarText,
+        boldUnderText,
+        italicStarText,
+        italicUnderText,
+        strikeText,
       ] = tok;
 
-      if (imgSrc !== undefined) {
+      if (inlineCode !== undefined) {
+        parts.push(
+          <code
+            key={`${keyPrefix}-code-${idx}`}
+            className="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 font-mono text-[12px] text-cyan-200"
+          >
+            {inlineCode}
+          </code>
+        );
+      } else if (imgSrc !== undefined) {
         const cleanSrc = imgSrc.split(' ')[0].replace(/^["']|["']$/g, '');
         const resolvedImg =
           cleanSrc.startsWith('http://') || cleanSrc.startsWith('https://')
@@ -133,6 +149,11 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
           getDocByPath(resolvedTarget);
 
         const ytEmbed = extractYouTubeEmbedUrl(linkHref);
+        const renderedLabel = renderInline(
+          linkLabel,
+          `${keyPrefix}-lbl-${idx}`,
+          depth + 1
+        );
 
         if (targetDoc) {
           parts.push(
@@ -141,8 +162,8 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
               onClick={() => onNavigateDoc(targetDoc.path)}
               className="inline-flex items-center gap-1 rounded bg-cyan-500/15 px-1.5 py-0.5 font-medium text-cyan-300 underline decoration-cyan-500/40 transition hover:bg-cyan-500/25"
             >
-              <FileText className="h-3 w-3" />
-              <span>{linkLabel}</span>
+              <FileText className="h-3 w-3 shrink-0" />
+              <span>{renderedLabel}</span>
             </button>
           );
         } else {
@@ -158,30 +179,64 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
               rel="noreferrer"
               className="inline-flex items-center gap-1 font-medium text-cyan-400 underline decoration-cyan-500/40 hover:text-cyan-300"
             >
-              {ytEmbed && <Play className="h-3 w-3 text-rose-400 fill-current" />}
-              <span>{linkLabel}</span>
-              <ExternalLink className="h-3 w-3 opacity-75" />
+              {ytEmbed && (
+                <Play className="h-3 w-3 shrink-0 fill-current text-rose-400" />
+              )}
+              <span>{renderedLabel}</span>
+              <ExternalLink className="h-3 w-3 shrink-0 opacity-75" />
             </a>
           );
         }
-      } else if (inlineCode !== undefined) {
+      } else if (autoUrl !== undefined) {
         parts.push(
-          <code
-            key={`${keyPrefix}-code-${idx}`}
-            className="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 font-mono text-[12px] text-cyan-200"
+          <a
+            key={`${keyPrefix}-autourl-${idx}`}
+            href={autoUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 font-mono text-xs text-cyan-400 underline hover:text-cyan-300"
           >
-            {inlineCode}
-          </code>
+            <span>{autoUrl}</span>
+            <ExternalLink className="h-3 w-3 shrink-0 opacity-75" />
+          </a>
         );
-      } else if (boldText !== undefined) {
+      } else if (boldItalicText !== undefined) {
         parts.push(
-          <strong key={`${keyPrefix}-bold-${idx}`} className="font-semibold text-white">
-            {boldText}
+          <strong
+            key={`${keyPrefix}-bi-${idx}`}
+            className="font-semibold italic text-white"
+          >
+            {renderInline(boldItalicText, `${keyPrefix}-bi-in-${idx}`, depth + 1)}
           </strong>
         );
+      } else if (boldStarText !== undefined || boldUnderText !== undefined) {
+        const inner = boldStarText ?? boldUnderText;
+        parts.push(
+          <strong key={`${keyPrefix}-b-${idx}`} className="font-semibold text-white">
+            {renderInline(inner, `${keyPrefix}-b-in-${idx}`, depth + 1)}
+          </strong>
+        );
+      } else if (italicStarText !== undefined || italicUnderText !== undefined) {
+        const inner = italicStarText ?? italicUnderText;
+        parts.push(
+          <em
+            key={`${keyPrefix}-em-${idx}`}
+            className="italic text-cyan-100/95"
+          >
+            {renderInline(inner, `${keyPrefix}-em-in-${idx}`, depth + 1)}
+          </em>
+        );
+      } else if (strikeText !== undefined) {
+        parts.push(
+          <del key={`${keyPrefix}-del-${idx}`} className="text-slate-500 line-through">
+            {renderInline(strikeText, `${keyPrefix}-del-in-${idx}`, depth + 1)}
+          </del>
+        );
+      } else if (/^<br\s*\/?>$/i.test(fullMatch)) {
+        parts.push(<br key={`${keyPrefix}-br-${idx}`} />);
       }
 
-      cursor = tokenRegex.lastIndex;
+      cursor = regex.lastIndex;
       idx += 1;
     }
 
@@ -207,7 +262,7 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
       }
 
       // Skip raw HTML wrappers or extract img src from HTML <img>
-      if (trimmed.startsWith('<')) {
+      if (trimmed.startsWith('<') && !/^<https?:\/\//i.test(trimmed)) {
         const htmlImgMatch = trimmed.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
         if (htmlImgMatch) {
           const rawSrc = htmlImgMatch[1];
@@ -229,7 +284,7 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
       }
 
       // Horizontal rule
-      if (/^---+$/.test(trimmed)) {
+      if (/^---+$/.test(trimmed) || /^===+$/.test(trimmed)) {
         elements.push(
           <hr key={`hr-${segIdx}-${i}`} className="my-6 border-slate-800" />
         );
@@ -333,10 +388,10 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
       }
 
       // Bullet or Numbered List
-      if (/^([-*]|\d+\.)\s+/.test(trimmed)) {
+      if (/^([-*]|\d+[.)])\s+/.test(trimmed)) {
         const listItems = [];
-        while (i < lines.length && /^(\s*[-*]|\s*\d+\.)\s+/.test(lines[i])) {
-          listItems.push(lines[i].replace(/^(\s*[-*]|\s*\d+\.)\s+/, '').trim());
+        while (i < lines.length && /^(\s*[-*]|\s*\d+[.)])\s+/.test(lines[i])) {
+          listItems.push(lines[i].replace(/^(\s*[-*]|\s*\d+[.)])\s+/, '').trim());
           i += 1;
         }
         elements.push(
@@ -360,9 +415,10 @@ export const MarkdownViewer = ({ doc, onNavigateDoc }) => {
         !lines[i].trim().startsWith('#') &&
         !lines[i].trim().startsWith('>') &&
         !lines[i].trim().startsWith('|') &&
-        !lines[i].trim().startsWith('<') &&
+        !(lines[i].trim().startsWith('<') && !/^<https?:\/\//i.test(lines[i].trim())) &&
         !/^---+$/.test(lines[i].trim()) &&
-        !/^([-*]|\d+\.)\s+/.test(lines[i].trim())
+        !/^===+$/.test(lines[i].trim()) &&
+        !/^([-*]|\d+[.)])\s+/.test(lines[i].trim())
       ) {
         paraLines.push(lines[i].trim());
         i += 1;
